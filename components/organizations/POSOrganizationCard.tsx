@@ -9,34 +9,42 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { MoreVertical, Mail, Phone, MapPin, BookOpen, Users, HardDrive } from 'lucide-react';
-import { Organization } from '@/lib/types';
+import { MoreVertical, Mail, Phone, MapPin, Database, Users, HardDrive } from 'lucide-react';
+import { POSOrganization } from '@/lib/types';
 
-interface OrganizationCardProps {
-  organization: Organization;
-  onView?: (org: Organization) => void;
-  onEdit?: (org: Organization) => void;
+interface POSOrganizationCardProps {
+  organization: POSOrganization;
+  onView?: (org: POSOrganization) => void;
+  onEdit?: (org: POSOrganization) => void;
   onDelete?: (orgId: string) => void;
 }
 
-const statusColors = {
+const statusColors: Record<string, string> = {
   active: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
   inactive: 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200',
+  trial: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+  expired: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+  cancelled: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
 };
 
-const planColors = {
-  starter: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-  professional: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
+const planColors: Record<string, string> = {
+  trial: 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200',
+  basic: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+  standard: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
   premium: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
 };
 
-const planNames = {
-  starter: 'স্টার্টার',
-  professional: 'প্রফেশনাল',
+const planNames: Record<string, string> = {
+  trial: 'ট্রায়াল',
+  basic: 'বেসিক',
+  standard: 'স্ট্যান্ডার্ড',
   premium: 'প্রিমিয়াম',
 };
 
-export function OrganizationCard({ organization, onView, onEdit, onDelete }: OrganizationCardProps) {
+export function POSOrganizationCard({ organization, onView, onEdit, onDelete }: POSOrganizationCardProps) {
+  const currentPlan = organization.subscription?.planName || 'trial';
+  const limits = organization.limits || { products: 500, users: 2, storageMB: 500 };
+
   return (
     <Card className="card-hover p-6 flex flex-col gap-4 border border-border bg-card/75">
       <div className="flex items-start justify-between">
@@ -53,11 +61,15 @@ export function OrganizationCard({ organization, onView, onEdit, onDelete }: Org
             />
           ) : null}
           <div className={`w-12 h-12 rounded-lg bg-muted flex items-center justify-center text-2xl ${organization.logo ? 'hidden' : ''}`}>
-            🏢
+            🛍️
           </div>
           <div className="flex flex-col gap-1">
             <h3 className="font-semibold text-lg">{organization.name}</h3>
-            <p className="text-sm text-muted-foreground">/{organization.slug}</p>
+            {organization.industry && (
+              <Badge variant="secondary" className="w-fit text-[10px] py-0.5">
+                {organization.industry}
+              </Badge>
+            )}
           </div>
         </div>
         <DropdownMenu>
@@ -77,7 +89,7 @@ export function OrganizationCard({ organization, onView, onEdit, onDelete }: Org
         {organization.email && (
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Mail size={16} />
-            <span>{organization.email}</span>
+            <span className="truncate">{organization.email}</span>
           </div>
         )}
         {organization.phone && (
@@ -95,32 +107,39 @@ export function OrganizationCard({ organization, onView, onEdit, onDelete }: Org
       </div>
 
       {/* Limits */}
-      <div className="grid grid-cols-2 gap-2 py-3 border-b border-border">
+      <div className="grid grid-cols-3 gap-2 py-3 border-b border-border">
         <div className="flex flex-col items-center gap-1">
-          <BookOpen size={14} className="text-muted-foreground" />
-          <span className="text-xs text-muted-foreground">বই লিমিট</span>
-          <span className="text-sm font-semibold">
-            {organization.limits?.books === -1 ? 'অসীমিত' : organization.limits?.books || 0}
+          <Database size={14} className="text-muted-foreground" />
+          <span className="text-[10px] text-muted-foreground">প্রোডাক্টস</span>
+          <span className="text-xs font-semibold">
+            {limits.products === -1 ? 'অসীমিত' : limits.products || 0}
           </span>
         </div>
         <div className="flex flex-col items-center gap-1">
           <Users size={14} className="text-muted-foreground" />
-          <span className="text-xs text-muted-foreground">সদস্য লিমিট</span>
-          <span className="text-sm font-semibold">
-            {organization.limits?.members === -1 ? 'অসীমিত' : organization.limits?.members || 0}
+          <span className="text-[10px] text-muted-foreground">ইউজার</span>
+          <span className="text-xs font-semibold">
+            {limits.users === -1 ? 'অসীমিত' : limits.users || 0}
+          </span>
+        </div>
+        <div className="flex flex-col items-center gap-1">
+          <HardDrive size={14} className="text-muted-foreground" />
+          <span className="text-[10px] text-muted-foreground">স্টোরেজ</span>
+          <span className="text-xs font-semibold">
+            {limits.storageMB === -1 ? 'অসীমিত' : `${limits.storageMB || 0} MB`}
           </span>
         </div>
       </div>
 
       {/* Badges */}
       <div className="flex flex-wrap gap-2">
-        <Badge className={statusColors[organization.status]}>
-          {organization.status === 'active' ? 'Active' : 'Inactive'}
+        <Badge className={statusColors[organization.subscription?.status || 'trial']}>
+          {organization.subscription?.status || 'Trial'}
         </Badge>
-        <Badge className={planColors[organization.subscription?.planName || 'starter']}>
-          {planNames[organization.subscription?.planName || 'starter']}
+        <Badge className={planColors[currentPlan]}>
+          {planNames[currentPlan] || currentPlan}
         </Badge>
-        {organization.subscription?.amount > 0 && (
+        {organization.subscription?.amount && organization.subscription.amount > 0 && (
           <Badge variant="outline">৳{organization.subscription.amount.toLocaleString()}/বছর</Badge>
         )}
       </div>

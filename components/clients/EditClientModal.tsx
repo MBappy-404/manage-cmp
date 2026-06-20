@@ -26,7 +26,7 @@ interface EditClientModalProps {
   onOpenChange: (open: boolean) => void;
   client: Client | null;
   onEditClient: (client: Client) => void;
-  organizations: Array<{ id: string; name: string }>;
+  organizations: Array<{ _id: string; name: string }>;
 }
 
 export function EditClientModal({
@@ -193,7 +193,7 @@ export function EditClientModal({
                   </SelectTrigger>
                   <SelectContent>
                     {organizations.map(org => (
-                      <SelectItem key={org.id} value={org.id}>
+                      <SelectItem key={org._id} value={org._id}>
                         {org.name}
                       </SelectItem>
                     ))}

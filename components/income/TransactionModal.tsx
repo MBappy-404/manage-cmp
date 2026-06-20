@@ -78,7 +78,7 @@ export function TransactionModal({
       setFormData({
         invoiceNumber: `INV-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`,
         clientId: clients[0]?.id || '',
-        organizationId: organizations[0]?.id || '',
+        organizationId: organizations[0]?._id || '',
         amount: '',
         paymentMethod: 'Credit Card',
         status: 'Pending',
@@ -196,7 +196,7 @@ export function TransactionModal({
                 </SelectTrigger>
                 <SelectContent>
                   {organizations.map(org => (
-                    <SelectItem key={org.id} value={org.id}>
+                    <SelectItem key={org._id} value={org._id}>
                       {org.logo} {org.name}
                     </SelectItem>
                   ))}

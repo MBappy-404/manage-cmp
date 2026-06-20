@@ -174,7 +174,7 @@
 
   /* Card hover effects */
   .card-hover {
-    @apply transition-all duration-200 hover:shadow-lg hover:scale-[1.02];
+    @apply transition-[background-color,box-shadow] duration-200 hover:shadow-lg hover:bg-muted/20 dark:hover:bg-muted/10;
   }
 
   /* Border radius */

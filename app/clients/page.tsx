@@ -50,7 +50,7 @@ export default function ClientsPage() {
   );
 
   // Get selected organization name
-  const selectedOrg = mockOrganizations.find(org => org.id === selectedOrgId);
+  const selectedOrg = mockOrganizations.find(org => org._id === selectedOrgId);
   const selectedOrgName = selectedOrg?.name || 'Unknown Organization';
 
   // Handlers
@@ -163,7 +163,7 @@ export default function ClientsPage() {
         <Tabs value={selectedOrgId} onValueChange={setSelectedOrgId} className="w-full">
           <TabsList variant="pills">
             {mockOrganizations.map(org => (
-              <TabsTrigger key={org.id} value={org.id} className="text-sm">
+              <TabsTrigger key={org._id} value={org._id} className="text-sm">
                 <span className="text-base mr-1">{org.logo}</span>
                 <span>{org.name}</span>
               </TabsTrigger>

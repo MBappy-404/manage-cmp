@@ -1,14 +1,64 @@
 // Organization and Business Types
 export interface Organization {
-  id: string;
+  _id: string;
   name: string;
-  type: 'Individual' | 'Business' | 'Startup' | 'Enterprise';
-  logo?: string;
-  members: number;
-  activePlan: 'Starter' | 'Professional' | 'Enterprise';
-  status: 'Active' | 'Inactive' | 'Suspended';
-  createdDate: string;
-  revenue: number;
+  slug: string;
+  email: string;
+  phone: string;
+  address: string;
+  logo: string;
+  banner?: string;
+  description?: string;
+  establishedYear?: number;
+  regNumber?: string;
+  website?: string;
+  socialLinks?: {
+    facebook?: string;
+    twitter?: string;
+    youtube?: string;
+    instagram?: string;
+  };
+  contactPerson?: {
+    name?: string;
+    designation?: string;
+    phone?: string;
+  };
+  libraryType?: 'public' | 'private' | 'academic' | 'community' | 'personal';
+  openingHours?: string;
+  status: 'active' | 'inactive';
+  subscription: {
+    planName: 'starter' | 'professional' | 'premium';
+    status: 'active' | 'expired' | 'cancelled';
+    autoRenew: boolean;
+    startDate: string;
+    endDate?: string;
+    amount: number;
+  };
+  limits: {
+    books: number;
+    members: number;
+  };
+  settings: {
+    currency: string;
+    timezone: string;
+    language: 'en' | 'bn';
+  };
+  createdBy?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface Plan {
+  name: string;
+  nameEn: string;
+  description: string;
+  price: number;
+  currency: string;
+  duration: string;
+  limits: {
+    books: number;
+    members: number;
+  };
 }
 
 export interface Client {
@@ -86,4 +136,38 @@ export interface InvoiceItem {
   quantity: number;
   unitPrice: number;
   amount: number;
+}
+
+export interface POSOrganization {
+  _id: string;
+  name: string;
+  industry?: string;
+  address?: string;
+  phone?: string;
+  email?: string;
+  ownerId?: any;
+  logo?: string;
+  subscription?: {
+    planId?: string;
+    planName?: string;
+    status?: 'active' | 'trial' | 'expired' | 'cancelled';
+    startDate?: string;
+    endDate?: string;
+    autoRenew?: boolean;
+    amount?: number;
+  };
+  limits?: {
+    products?: number;
+    users?: number;
+    storageMB?: number;
+  };
+  settings?: {
+    currency?: string;
+    timezone?: string;
+    language?: string;
+  };
+  createdBy?: any;
+  updatedBy?: any;
+  createdAt?: string;
+  updatedAt?: string;
 }

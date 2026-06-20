@@ -43,20 +43,20 @@ export default function ReportsPage() {
             <h3 className="mb-4 text-lg font-semibold text-foreground">Key Metrics</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="flex flex-col gap-2">
-                <p className="text-sm font-medium text-muted-foreground">Total Revenue</p>
-                <p className="text-3xl font-bold text-foreground">
-                  ${mockOrganizations.reduce((sum, o) => sum + o.revenue, 0).toLocaleString()}
+                <p className="text-sm font-medium text-muted-foreground">Total Organizations</p>
+                <p className="text-3xl font-bold text-foreground">{mockOrganizations.length}</p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <p className="text-sm font-medium text-muted-foreground">Active</p>
+                <p className="text-3xl font-bold text-green-600">
+                  {mockOrganizations.filter(o => o.status === 'active').length}
                 </p>
               </div>
               <div className="flex flex-col gap-2">
-                <p className="text-sm font-medium text-muted-foreground">Average Revenue</p>
-                <p className="text-3xl font-bold text-foreground">
-                  ${Math.round(mockOrganizations.reduce((sum, o) => sum + o.revenue, 0) / mockOrganizations.length).toLocaleString()}
+                <p className="text-sm font-medium text-muted-foreground">Inactive</p>
+                <p className="text-3xl font-bold text-muted-foreground">
+                  {mockOrganizations.filter(o => o.status === 'inactive').length}
                 </p>
-              </div>
-              <div className="flex flex-col gap-2">
-                <p className="text-sm font-medium text-muted-foreground">Growth Rate</p>
-                <p className="text-3xl font-bold text-green-600">+18.5%</p>
               </div>
             </div>
           </Card>
@@ -129,19 +129,19 @@ export default function ReportsPage() {
               <div className="flex flex-col gap-2">
                 <p className="text-sm font-medium text-muted-foreground">Active</p>
                 <p className="text-3xl font-bold text-green-600">
-                  {mockOrganizations.filter(o => o.status === 'Active').length}
+                  {mockOrganizations.filter(o => o.status === 'active').length}
                 </p>
               </div>
               <div className="flex flex-col gap-2">
-                <p className="text-sm font-medium text-muted-foreground">Total Team Members</p>
+                <p className="text-sm font-medium text-muted-foreground">Inactive</p>
+                <p className="text-3xl font-bold text-muted-foreground">
+                  {mockOrganizations.filter(o => o.status === 'inactive').length}
+                </p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <p className="text-sm font-medium text-muted-foreground">Total Emails</p>
                 <p className="text-3xl font-bold text-foreground">
-                  {mockOrganizations.reduce((sum, o) => sum + o.members, 0)}
-                </p>
-              </div>
-              <div className="flex flex-col gap-2">
-                <p className="text-sm font-medium text-muted-foreground">Enterprise Plans</p>
-                <p className="text-3xl font-bold text-primary">
-                  {mockOrganizations.filter(o => o.activePlan === 'Enterprise').length}
+                  {mockOrganizations.filter(o => o.email).length}
                 </p>
               </div>
             </div>

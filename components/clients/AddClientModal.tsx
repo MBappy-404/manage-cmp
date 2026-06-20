@@ -26,7 +26,7 @@ interface AddClientModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onAddClient: (client: Omit<Client, 'id'>) => void;
-  organizations: Array<{ id: string; name: string }>;
+  organizations: Array<{ _id: string; name: string }>;
 }
 
 export function AddClientModal({
@@ -178,7 +178,7 @@ export function AddClientModal({
                   </SelectTrigger>
                   <SelectContent>
                     {organizations.map(org => (
-                      <SelectItem key={org.id} value={org.id}>
+                      <SelectItem key={org._id} value={org._id}>
                         {org.name}
                       </SelectItem>
                     ))}

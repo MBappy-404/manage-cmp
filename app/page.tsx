@@ -89,7 +89,7 @@ export default function Page() {
         </div>
         <DashboardGrid columns={2}>
           {mockOrganizations.slice(0, 2).map((org) => (
-            <OrganizationCard key={org.id} organization={org} />
+            <OrganizationCard key={org._id} organization={org} />
           ))}
         </DashboardGrid>
       </div>
